@@ -14,7 +14,7 @@ final class HashBrown{
 			return array ('tiger192,4', 'sha512', 'haval192,4', 'ripemd256' );
 		}
 	}
-	public function served($username, $passphrase){
+	public static function served($username, $passphrase){
 		$cooking= hash(self::$hasharray['username'], $username);
 		$toppings= self::hashingMethod($userhash);
 		foreach(explode("\s", $passphrase) as $k=>$v){
