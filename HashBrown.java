@@ -15,10 +15,12 @@ public class HashBrown{
 	}
 
 	private static String hash(final String hashMethod, final String toBeHashed){
+		switch(hashMethod){
 		/*
 		 * This would point to a hashing method. Java doesn't come with a variety of methods like PHP, so they would
 		 * have to be implemented.
 		 */
+		}
 		return null;
 	}
 
