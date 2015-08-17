@@ -95,14 +95,13 @@ public class HashBrown {
 	 *         passphrase.
 	 */
 	public static String served(final String username, final String passphrase) {
-		final String uName = username.toLowerCase();
-		final MessageDigest[] hasharray = HashBrown.getHashArray(uName.charAt(0));
-		String cooking = HashBrown.hash(hasharray[0], uName);
+		String cooking = HashBrown.hash(MDhash.MD2.get(), username);
+		final MessageDigest[] hasharray = HashBrown.getHashArray(username.toLowerCase().charAt(0));
 		final String[] words = passphrase.split(" ");
 		for (int i = 0; i < words.length; i++) {
 			cooking += HashBrown.hash(hasharray[i + 1], words[i]);
 		}
-		final String readyToServe = HashBrown.hash(hasharray[words.length + 1], cooking);
+		final String readyToServe = HashBrown.hash(hasharray[words.length], cooking);
 		return readyToServe;
 	}
 
@@ -119,13 +118,29 @@ public class HashBrown {
 		MessageDigest[] mda;
 		/*
 		 * This is written with the assumption of a 4-word passphrase system.
-		 * Each array should have 1 hash for the username, 1 for each word of
-		 * the passphrase, and 1 for the final hash. Essentially, provide for
-		 * the number of words in the passphrase plus two.
+		 * Each array should have 1 hash for each word of the passphrase, and
+		 * 1 for the final hash. Essentially, provide for the number of words
+		 * in the passphrase plus one.
 		 */
 		switch (charAt) {
+		case '0':
+		case '1':
+		case '2':
+		case '3':
+		case '4':
+		case '5':
+		case '6':
+		case '7':
+		case '8':
+		case '9':
+		case 'a':
+		case 'b':
+		case 'c':
+		case 'd':
+		case 'e':
+		case 'f':
 		default:
-			mda = HashBrown.constructHashArray("MD2,MD5,SHA,SHA224,SHA256,SHA384");
+			mda = HashBrown.constructHashArray("MD5,SHA,SHA224,SHA256,SHA384");
 		}
 		return mda;
 	}
