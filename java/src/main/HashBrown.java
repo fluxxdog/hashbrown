@@ -1,10 +1,6 @@
 package main;
 
 import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.function.Supplier;
-
-import javax.xml.bind.DatatypeConverter;
 
 ///@formatter:off
 /*
@@ -48,38 +44,6 @@ import javax.xml.bind.DatatypeConverter;
  * @see MessageDigest
  */
 public class HashBrown {
-	/*
-	 * Using jdk 1.8.0_51, 7 MessageDigests are provided. New ones should be
-	 * added here with a way to reference them and create them.
-	 */
-	private enum MDhash implements Supplier<MessageDigest> {
-		MD2, MD5, SHA, SHA224("SHA-224"), SHA256("SHA-256"), SHA384("SHA-384"), SHA512("SHA-512");
-		MDhash() {
-			this.setMessageDigest(this.name());
-		}
-
-		MDhash(final String s) {
-			this.setMessageDigest(s);
-		}
-
-		private MessageDigest messageDigest;
-
-		@Override
-		public MessageDigest get() {
-			this.messageDigest.reset();
-			return this.messageDigest;
-		}
-
-		private void setMessageDigest(final String s) {
-			try {
-				this.messageDigest = MessageDigest.getInstance(s.toString());
-			} catch (final NoSuchAlgorithmException e) {
-				System.out.println("This implementation of Java does not use " + s);
-				e.printStackTrace();
-			}
-		}
-	}
-
 	private HashBrown() {
 	}
 
@@ -95,27 +59,19 @@ public class HashBrown {
 	 *         passphrase.
 	 */
 	public static String served(final String username, final String passphrase) {
-		String cooking = HashBrown.hash(MDhash.MD2.get(), username);
-		final MessageDigest[] hasharray = HashBrown.getHashArray(username.toLowerCase().charAt(0));
+		String salt = ""; // If desired
+		String cooking = MDhash.MD5.apply(username);
+		final MDhash[] hasharray = HashBrown.getHashArray(username.toLowerCase().charAt(0));
 		final String[] words = passphrase.split(" ");
 		for (int i = 0; i < words.length; i++) {
-			cooking += HashBrown.hash(hasharray[i + 1], words[i]);
+			cooking += hasharray[i + 1].apply(words[i]);
 		}
-		final String readyToServe = HashBrown.hash(hasharray[words.length], cooking);
+		final String readyToServe = hasharray[words.length].apply(salt + cooking);
 		return readyToServe;
 	}
 
-	private static MessageDigest[] constructHashArray(final String listing) {
-		final String[] hashes = listing.split(",");
-		final MessageDigest[] construction = new MessageDigest[hashes.length];
-		for (int i = 0; i < hashes.length; i++) {
-			construction[i] = MDhash.valueOf(hashes[i]).get();
-		}
-		return construction;
-	}
-
-	private static MessageDigest[] getHashArray(final char charAt) {
-		MessageDigest[] mda;
+	private static MDhash[] getHashArray(final char charAt) {
+		MDhash[] mda;
 		/*
 		 * This is written with the assumption of a 4-word passphrase system.
 		 * Each array should have 1 hash for each word of the passphrase, and
@@ -140,15 +96,8 @@ public class HashBrown {
 		case 'e':
 		case 'f':
 		default:
-			mda = HashBrown.constructHashArray("MD5,SHA,SHA224,SHA256,SHA384");
+			mda = new MDhash[] { MDhash.MD5, MDhash.RIPEMD128, MDhash.WHIRLPOOL, MDhash.SHA256, MDhash.TIGER };
 		}
 		return mda;
-	}
-
-	private static String hash(final MessageDigest messageDigest, final String input) {
-		final byte[] prepared = input.getBytes();
-		final byte[] processed = messageDigest.digest(prepared);
-		final String presented = DatatypeConverter.printHexBinary(processed);
-		return presented;
 	}
 }
