@@ -96,7 +96,7 @@ public class HashBrown{
 			case 'f':
 				mda= new MDhash[]{MDhash.MD5, MDhash.RIPEMD128, MDhash.WHIRLPOOL, MDhash.SHA256, MDhash.TIGER};
 			default:
-				mda= new MDHash[0];
+				mda= new MDhash[0];
 			}
 			return mda;
 		}
