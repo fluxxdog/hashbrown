@@ -4,8 +4,8 @@
   <artifactId>hashbrown</artifactId>
   <version>0.0.1-SNAPSHOT</version>
 	<build>
-		<sourceDirectory>${project.basedir}/java/src</sourceDirectory>
-		<testSourceDirectory>${project.basedir}/java/test</testSourceDirectory>
+		<sourceDirectory>${project.basedir}/java/src/main/java</sourceDirectory>
+		<testSourceDirectory>${project.basedir}/java/src/test/java</testSourceDirectory>
 	</build>
 	<dependencies>
 		<dependency>
