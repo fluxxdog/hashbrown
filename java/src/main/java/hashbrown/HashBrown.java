@@ -2,6 +2,8 @@ package hashbrown;
 
 import java.security.MessageDigest;
 
+import gnu.crypto.hash.IMessageDigest;
+
 ///@formatter:off
 /*
      hashbrown technique
@@ -41,6 +43,7 @@ import java.security.MessageDigest;
  * Java is only guaranteed to use MD5, SHA-1, and SHA-256.
  *
  * @see MessageDigest
+ * @see IMessageDigest
  */
 public class HashBrown{
 		private HashBrown(){
