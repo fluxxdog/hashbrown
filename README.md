@@ -29,8 +29,8 @@ The problem in the design of these adjustments was ignoring human influence. The
 However, looking at the passphrases, there will be resistance to them at first. Passphrases are change and general populations tends to bemoan change unless the reward is obvious and/or immediate. Implementing such a standard would require the implementor to apply it and let it run. Resistance fades with time and users will become accustom to it.
 
 ## xkcd and Waffle House
-This technique was inspired by two sources.
-First is the webcomic xkcd, notably https://xkcd.com/936/
-Second is Waffle House, which I worked at for about 7 years.
+This technique was inspired by two sources. First is the webcomic xkcd, notably https://xkcd.com/936/. Second is Waffle House, which I worked at for about 7 years.
+
 At Waffle House, as people will notice, they cook hashbrowns by first throwing a measure of shredded potatoes on the grill. They will then add toppings as ordered while the bottom is cooking. The hashbrowns are then flipped and cooked on the other side to cook the toppings. (Cheese is added at this time if ordered.) Finally, it's served up to the customer.
+
 In the same manner, we take a username and hash it first (on the grill). We then get a collection of hashing techniques based on the username and apply them to the individual words of the passphrase (add the toppings). We then combine the hashes together (flipping the hashbrowns). Finally, we return a final hash of the concatenated hashes and serve it up.
